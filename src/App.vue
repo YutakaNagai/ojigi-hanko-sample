@@ -317,11 +317,9 @@ export default {
     transform: translate(-50%, -50%); /* 中央揃え */
     text-align: center;
     color: red;
-}
-
-/* 縦書きのスタイルをそのままにする */
-.centeredText div {
+    display: flex;
     writing-mode: vertical-rl;
+    align-items: center;
 }
 
 .result {
