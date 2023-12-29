@@ -7,6 +7,7 @@
             @change="createPlayerNameArray()"
         />
     </div>
+    <button @click="setFontSize()">改名（プレイヤーの名前を更新）</button>
     <button @click="updateRandomName()">
         転職（プレイヤー以外の名前の更新）
     </button>
@@ -25,7 +26,11 @@
         </tr>
 
         <tr>
-            <td v-for="(character, index) in characterList" :key="index">
+            <td
+                v-for="(character, index) in characterList"
+                :key="index"
+                :id="`area_${index}`"
+            >
                 <div
                     :id="`circle_${index}`"
                     class="circle"
@@ -37,7 +42,7 @@
                             : { transform: `rotate(-${character.deg}deg)` }
                     "
                 >
-                    <div class="centeredText">
+                    <div :id="`text_${index}`" class="centeredText">
                         <div v-for="char in character.name" :key="char">
                             {{ char }}
                         </div>
@@ -142,6 +147,8 @@ export default {
 
         // その他の苗字設定
         this.updateRandomName();
+
+        this.setFontSize();
     },
 
     methods: {
@@ -224,7 +231,6 @@ export default {
         setObj() {
             // 成功していた場合、回転速度が10％アップ
             this.rotateSpeed = this.isSuccess ? this.rotateSpeed * 0.9 : 3000;
-            this.rotateSpeed = 5000;
             // ref属性を使用して要素の参照を取得
             const circleElem = document.getElementById("circle_2");
             // 回転の開始角度としてランダムな値をthis.objに保存する
@@ -278,14 +284,21 @@ export default {
 
             this.familyOwnedBonus =
                 maxDuplicateCount > 1 ? maxDuplicateCount * 10 : 1;
+
+            this.setFontSize();
         },
 
-        getFontSize(len) {
-            const circleElem = document.getElementsByClassName("circle")[0];
-            const circleRect = circleElem.getBoundingClientRect();
-            console.log("circleRect :>> ", circleRect);
-            console.log("len :>> ", len);
-            return "50px";
+        setFontSize() {
+            const areaElem = document.getElementById("area_0");
+            const areaSize = areaElem.getBoundingClientRect().height;
+            this.characterList.forEach((character, index) => {
+                const len = character.name.length;
+
+                console.log("index :>> ", index);
+                console.log("areaSize / len :>> ", areaSize / len);
+                const textElem = document.getElementById(`text_${index}`);
+                textElem.style.fontSize = `${(areaSize / len) * 0.9}px`;
+            });
         },
     },
 
@@ -310,7 +323,6 @@ export default {
     transform: translate(-50%, -50%); /* 中央揃え */
     text-align: center;
     color: red;
-    font-size: xxx-large;
 }
 
 /* 縦書きのスタイルをそのままにする */
