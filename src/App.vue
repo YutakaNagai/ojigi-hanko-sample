@@ -122,10 +122,6 @@
     >
         {{ RESULT_INFO[resultKey].message }}
     </div>
-
-    <audio id="btn_audio">
-        <source src="./assets/ペタッ.mp3" type="audio/mp3" />
-    </audio>
 </template>
 
 <script>
@@ -198,6 +194,9 @@ export default {
         this.updateRandomName();
 
         this.setFontSize();
+
+        this.audio = new Audio("/ペタッ.mp3");
+        this.audio.preload = "auto";
     },
 
     methods: {
@@ -231,8 +230,7 @@ export default {
                     this.degrees = this.degrees + 360;
                 }
 
-                document.getElementById("btn_audio").currentTime = 0; //連続クリックに対応
-                document.getElementById("btn_audio").play(); //クリックしたら音を再生
+                this.audio.play();
 
                 // 判定
                 if (
@@ -454,7 +452,7 @@ export default {
     text-align: center;
     animation: slide-out-anim 3s ease-in-out forwards;
     position: absolute;
-    top: 35%;
+    top: 13%;
     left: 0%;
     width: 150%;
 }
