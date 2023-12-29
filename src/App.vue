@@ -19,10 +19,9 @@
 
     <table border="1px solid black">
         <tr>
-            <th>社長</th>
-            <th>部長</th>
-            <th>課長</th>
-            <th>係長</th>
+            <th v-for="(character, index) in characterList" :key="index">
+                {{ character.post }}
+            </th>
         </tr>
 
         <tr>
@@ -94,7 +93,6 @@ export default {
             randomDeg: 0,
             RESULT_INFO,
             playerName: "",
-            playerNameArray: [],
             familyOwnedBonus: 1,
             rotateSpeed: 3000,
             characterList: [
