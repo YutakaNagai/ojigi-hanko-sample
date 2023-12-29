@@ -34,11 +34,11 @@
 
 <style scoped>
 .header__inner {
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     left: 0;
     background: rgba(190, 190, 190, 0.5);
-    height: 9vh;
+    /* height: 9vh; */
     width: 100vw;
     text-align: left;
 }
@@ -47,7 +47,7 @@
     margin: 0;
 }
 img {
-    height: 90%;
+    height: 4rem;
     margin: 0 0 auto;
     padding: 0.1rem 1rem;
     display: inline-block;

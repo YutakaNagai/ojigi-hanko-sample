@@ -1,71 +1,122 @@
 <template>
     <header-component />
-    <div v-if="familyOwnedBonus > 10">
+    <div class="main_contents">
+        <!-- <div v-if="familyOwnedBonus > 10" class="bonus_tape">
         【家族経営ボーナス】: 基本スコア x{{ familyOwnedBonus }}
-    </div>
-    <div>SCORE: {{ score }}</div>
-    <div>BEST: {{ bestScore }}</div>
+    </div> -->
+        <div class="bonus_tape">
+            <ul>
+                <li>
+                    {{
+                        familyOwnedBonus > 10
+                            ? `【家族経営ボーナス】: 基本スコア x ${familyOwnedBonus}`
+                            : ""
+                    }}
+                </li>
+            </ul>
+        </div>
+        <div>SCORE: {{ score }}</div>
+        <div>BEST: {{ bestScore }}</div>
 
-    <table border="1px solid black">
-        <tr>
-            <th v-for="(character, index) in characterList" :key="index">
-                {{ character.post }}
-            </th>
-        </tr>
+        <table border="1px solid black" class="stamp_table">
+            <tr>
+                <th v-for="(character, index) in characterList" :key="index">
+                    {{ character.post }}
+                </th>
+            </tr>
 
-        <tr>
-            <td
-                v-for="(character, index) in characterList"
-                :key="index"
-                :id="`area_${index}`"
-            >
-                <div
-                    :id="`circle_${index}`"
-                    class="circle"
-                    :style="
-                        character.isPlayer
-                            ? isRotate
-                                ? 'opacity: 0.2'
-                                : 'opacity: 1;'
-                            : { transform: `rotate(-${character.deg}deg)` }
-                    "
+            <tr>
+                <td
+                    v-for="(character, index) in characterList"
+                    :key="index"
+                    :id="`area_${index}`"
                 >
-                    <div :id="`text_${index}`" class="centeredText">
-                        <div v-for="char in character.name" :key="char">
-                            {{ char }}
+                    <div
+                        :id="`circle_${index}`"
+                        class="circle"
+                        :style="
+                            character.isPlayer
+                                ? isRotate
+                                    ? 'opacity: 0.2'
+                                    : 'opacity: 1;'
+                                : { transform: `rotate(-${character.deg}deg)` }
+                        "
+                    >
+                        <div :id="`text_${index}`" class="centeredText">
+                            <div v-for="char in character.name" :key="char">
+                                {{ char }}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div>
-        <a class="btn" ontouchstart="" @click="isRotate ? stop() : rotate()">
-            {{ isRotate ? "STAMP!" : "ROTATE!" }}
-        </a>
+                </td>
+            </tr>
+        </table>
+        <div style="padding: 2vh 0">
+            <a
+                class="btn --big"
+                ontouchstart=""
+                @click="isRotate ? stop() : rotate()"
+            >
+                {{ isRotate ? "STAMP!" : "ROTATE!" }}
+            </a>
+        </div>
     </div>
 
-    <div>部長の角度: {{ characterList[1].deg }}</div>
-    <div>あなたの角度: {{ degrees }}</div>
-    <div>係長の角度: {{ characterList[3].deg }}</div>
-
-    <div>連続成功回数: {{ continuousPoint }}回</div>
-    <div>一周の回転速度: {{ rotateSpeed }}ms</div>
-
-    <div>
-        お名前:
-        <input style="display: inline-block" type="text" v-model="playerName" />
-        <a
-            class="btn --mini"
-            ontouchstart=""
-            @click="setPlayerName()"
-            style="display: inline-block"
-            >改名</a
-        >
+    <div class="other_contents">
+        <h3>INFO</h3>
+        <table>
+            <tr>
+                <td>部長の角度</td>
+                <td>
+                    {{ characterList[1].deg }}
+                </td>
+            </tr>
+            <tr>
+                <td>あなたの角度　</td>
+                <td>
+                    {{ degrees }}
+                </td>
+            </tr>
+            <tr>
+                <td>係長の角度　</td>
+                <td>
+                    {{ characterList[3].deg }}
+                </td>
+            </tr>
+            <tr>
+                <td>連続成功回数　</td>
+                <td>{{ continuousPoint }}回</td>
+            </tr>
+            <tr>
+                <td>一周の回転速度　</td>
+                <td>{{ rotateSpeed }}ms</td>
+            </tr>
+        </table>
     </div>
-    <p>プレイヤーの名前を更新するよ</p>
-    <a class="btn" ontouchstart="" @click="updateRandomName()">転職</a>
-    <p>プレイヤー以外の名前を更新するよ</p>
+
+    <div class="other_contents">
+        <h3>SETTINGS</h3>
+        <div>
+            お名前:
+            <input
+                style="display: inline-block"
+                type="text"
+                v-model="playerName"
+            />
+            <a
+                class="btn --mini"
+                ontouchstart=""
+                @click="setPlayerName()"
+                style="display: inline-block"
+                >改名</a
+            >
+            <p class="explain_text">※ プレイヤーの名前を更新するよ</p>
+        </div>
+        <div>
+            <a class="btn" ontouchstart="" @click="updateRandomName()">転職</a>
+            <p class="explain_text">※ プレイヤー以外の名前を更新するよ</p>
+        </div>
+    </div>
 
     <div
         v-if="!isRotate"
@@ -310,6 +361,51 @@ export default {
 </script>
 
 <style scoped>
+.main_contents {
+    padding-left: 0;
+    margin-left: 0;
+}
+.bonus_tape {
+    width: 100vw;
+    background: black;
+    border-top: 0.1rem dashed yellow;
+    border-bottom: 0.1rem dashed yellow;
+    display: flex;
+    color: yellow;
+    overflow: hidden;
+    white-space: nowrap;
+    align-items: center;
+}
+.bonus_tape ul {
+    /* animation: flowing 30s linear infinite; */
+    /* transform: translateX(100%); */
+    margin: 0;
+    padding: 0;
+}
+.bonus_tape ul li {
+    display: inline-block;
+    padding-right: 10px;
+}
+/* @keyframes flowing {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes loop-slide {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+} */
+.stamp_table {
+    margin: auto;
+}
 .btn {
     display: block;
     text-align: center;
@@ -327,6 +423,9 @@ export default {
 }
 .--mini {
     width: 2rem;
+}
+.--big {
+    width: 12rem;
 }
 .btn:active {
     transform: scale(0.9);
@@ -353,14 +452,14 @@ export default {
 }
 
 .result {
-    font-family: "arial black";
+    font-family: "Arial";
     font-size: xxx-large;
     text-align: center;
     animation: slide-out-anim 3s ease-in-out forwards;
     position: absolute;
-    top: 20%;
+    top: 35%;
     left: 0%;
-    width: 80%;
+    width: 150%;
 }
 
 @keyframes slide-out-anim {
@@ -378,5 +477,18 @@ export default {
         opacity: 0;
         transform: translateX(100%);
     }
+}
+
+.other_contents {
+    border: 1px dashed black;
+    text-align: left;
+}
+.other_contents h3 {
+    margin: 0.5rem auto;
+}
+
+.explain_text {
+    text-align: right;
+    margin-top: 0.2rem;
 }
 </style>
