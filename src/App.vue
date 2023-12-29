@@ -9,13 +9,14 @@
         />
         <a
             class="btn --mini"
+            ontouchstart=""
             @click="setFontSize()"
             style="display: inline-block"
             >改名</a
         >
     </div>
     <p>プレイヤーの名前を更新するよ</p>
-    <a class="btn" @click="updateRandomName()">転職</a>
+    <a class="btn" ontouchstart="" @click="updateRandomName()">転職</a>
     <p>プレイヤー以外の名前を更新するよ</p>
     <div v-if="familyOwnedBonus > 10">
         【家族経営ボーナス】: 基本スコア x{{ familyOwnedBonus }}
@@ -57,7 +58,7 @@
         </tr>
     </table>
     <div>
-        <a class="btn" @click="isRotate ? stop() : rotate()">
+        <a class="btn" ontouchstart="" @click="isRotate ? stop() : rotate()">
             {{ isRotate ? "STAMP!" : "ROTATE!" }}
         </a>
     </div>
@@ -315,18 +316,16 @@ export default {
     padding: 0.2rem 2rem;
     font-weight: bold;
     border-radius: 100vh;
-    border-bottom: 0.3rem solid #0686b2;
     background: #27acd9;
     color: #fff;
     cursor: pointer;
+    transition: transform 0.2s;
 }
 .--mini {
     width: 2rem;
 }
 .btn:active {
-    margin-top: 0.1rem;
-    border-bottom: 0.1rem solid #0686b2;
-    color: #fff;
+    transform: scale(0.9);
 }
 .circle {
     position: relative; /* 親要素を相対位置に設定 */
