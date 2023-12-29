@@ -86,12 +86,6 @@ export default {
             isRotate: true,
             obj: null,
             degrees: 0,
-            syachou_deg: 0,
-            syachouNameArray: [],
-            buchou_deg: 0,
-            buchouNameArray: [],
-            kakarichou_deg: 0,
-            kakarichouNameArray: [],
             isSuccess: false,
             continuousPoint: 0,
             resultKey: "",
@@ -230,7 +224,7 @@ export default {
         },
         setObj() {
             // 成功していた場合、回転速度が10％アップ
-            this.rotateSpeed = this.isSuccess ? this.rotateSpeed * 0.9 : 3000;
+            this.rotateSpeed = this.isSuccess ? this.rotateSpeed * 0.9 : 5000;
             // ref属性を使用して要素の参照を取得
             const circleElem = document.getElementById("circle_2");
             // 回転の開始角度としてランダムな値をthis.objに保存する
@@ -294,8 +288,6 @@ export default {
             this.characterList.forEach((character, index) => {
                 const len = character.name.length;
 
-                console.log("index :>> ", index);
-                console.log("areaSize / len :>> ", areaSize / len);
                 const textElem = document.getElementById(`text_${index}`);
                 textElem.style.fontSize = `${(areaSize / len) * 0.9}px`;
             });
