@@ -7,10 +7,10 @@
             @change="createPlayerNameArray()"
         />
     </div>
-    <button @click="setFontSize()">改名（プレイヤーの名前を更新）</button>
-    <button @click="updateRandomName()">
-        転職（プレイヤー以外の名前の更新）
-    </button>
+    <a class="btn" @click="setFontSize()">改名</a>
+    <p>プレイヤーの名前を更新するよ</p>
+    <a class="btn" @click="updateRandomName()">転職</a>
+    <p>プレイヤー以外の名前を更新するよ</p>
     <div v-if="familyOwnedBonus > 10">
         【家族経営ボーナス】: 基本スコア x{{ familyOwnedBonus }}
     </div>
@@ -52,9 +52,9 @@
         </tr>
     </table>
     <div>
-        <button @click="isRotate ? stop() : rotate()">
+        <a class="btn" @click="isRotate ? stop() : rotate()">
             {{ isRotate ? "STAMP!" : "ROTATE!" }}
-        </button>
+        </a>
     </div>
 
     <div>部長の角度: {{ characterList[1].deg }}</div>
@@ -291,7 +291,7 @@ export default {
                 const len = character.name.length;
 
                 const textElem = document.getElementById(`text_${index}`);
-                textElem.style.fontSize = `${(areaSize / len) * 0.9}px`;
+                textElem.style.fontSize = `${(areaSize / len) * 0.8}px`;
             });
         },
     },
@@ -301,6 +301,26 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    width: 120px;
+    margin: auto;
+    padding: 1rem 4rem;
+    font-weight: bold;
+    border-radius: 100vh;
+    border-bottom: 7px solid #0686b2;
+    background: #27acd9;
+    color: #fff;
+    cursor: pointer;
+}
+.btn:active {
+    margin-top: 6px;
+    border-bottom: 1px solid #0686b2;
+    color: #fff;
+}
 .circle {
     position: relative; /* 親要素を相対位置に設定 */
     width: 18vw;
