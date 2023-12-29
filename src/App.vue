@@ -25,63 +25,21 @@
         </tr>
 
         <tr>
-            <td>
+            <td v-for="(character, index) in characterList" :key="index">
                 <div
+                    :id="`circle_${index}`"
                     class="circle"
-                    :style="{ transform: `rotate(-${syachou_deg}deg)` }"
+                    :style="
+                        character.isPlayer
+                            ? isRotate
+                                ? 'opacity: 0.2'
+                                : 'opacity: 1;'
+                            : { transform: `rotate(-${character.deg}deg)` }
+                    "
                 >
                     <div class="centeredText">
-                        <div
-                            v-for="character in syachouNameArray"
-                            :key="character"
-                        >
-                            {{ character }}
-                        </div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div
-                    class="circle"
-                    :style="{ transform: `rotate(-${buchou_deg}deg)` }"
-                >
-                    <div class="centeredText">
-                        <div
-                            v-for="character in buchouNameArray"
-                            :key="character"
-                        >
-                            {{ character }}
-                        </div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div
-                    class="circle"
-                    ref="circleRef"
-                    :style="isRotate ? 'opacity: 0.2' : 'opacity: 1;'"
-                >
-                    <div class="centeredText">
-                        <div
-                            v-for="character in playerNameArray"
-                            :key="character"
-                        >
-                            {{ character }}
-                        </div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div
-                    class="circle"
-                    :style="{ transform: `rotate(-${kakarichou_deg}deg)` }"
-                >
-                    <div class="centeredText">
-                        <div
-                            v-for="character in kakarichouNameArray"
-                            :key="character"
-                        >
-                            {{ character }}
+                        <div v-for="char in character.name" :key="char">
+                            {{ char }}
                         </div>
                     </div>
                 </div>
@@ -94,9 +52,9 @@
         </button>
     </div>
 
-    <div>部長の角度: {{ buchou_deg }}</div>
+    <div>部長の角度: {{ characterList[1].deg }}</div>
     <div>あなたの角度: {{ degrees }}</div>
-    <div>係長の角度: {{ kakarichou_deg }}</div>
+    <div>係長の角度: {{ characterList[3].deg }}</div>
 
     <div>連続成功回数: {{ continuousPoint }}回</div>
     <div>一周の回転速度: {{ rotateSpeed }}ms</div>
@@ -140,6 +98,32 @@ export default {
             playerNameArray: [],
             familyOwnedBonus: 1,
             rotateSpeed: 3000,
+            characterList: [
+                {
+                    post: "社長",
+                    deg: 0,
+                    name: "",
+                    isPlayer: false,
+                },
+                {
+                    post: "部長",
+                    deg: 0,
+                    name: "",
+                    isPlayer: false,
+                },
+                {
+                    post: "あなた",
+                    deg: 0,
+                    name: "",
+                    isPlayer: true,
+                },
+                {
+                    post: "係長",
+                    deg: 0,
+                    name: "",
+                    isPlayer: false,
+                },
+            ],
         };
     },
 
@@ -196,18 +180,18 @@ export default {
 
                 // 判定
                 if (
-                    this.degrees > this.buchou_deg &&
-                    this.degrees < this.kakarichou_deg
+                    this.degrees > this.characterList[1].deg &&
+                    this.degrees < this.characterList[3].deg
                 ) {
                     this.isSuccess = true;
                     this.continuousPoint++;
 
                     // テクニカルポイント処理
-                    if (this.degrees - this.buchou_deg <= 5) {
+                    if (this.degrees - this.characterList[1].deg <= 5) {
                         this.resultKey = "PERFECT";
-                    } else if (this.degrees - this.buchou_deg <= 10) {
+                    } else if (this.degrees - this.characterList[1].deg <= 10) {
                         this.resultKey = "GREAT";
-                    } else if (this.degrees - this.buchou_deg <= 15) {
+                    } else if (this.degrees - this.characterList[1].deg <= 15) {
                         this.resultKey = "COOL";
                     } else {
                         this.resultKey = "SUCCESS";
@@ -226,11 +210,11 @@ export default {
         },
         setDigs() {
             // 社長の角度設定
-            this.syachou_deg = 0;
+            this.characterList[0].deg = 0;
             // 部長の角度設定(15-30度)
-            this.buchou_deg = Math.random() * 16 + 15;
+            this.characterList[1].deg = Math.random() * 16 + 15;
             // 係長の角度設定(60-90度)
-            this.kakarichou_deg = Math.random() * 31 + 60;
+            this.characterList[3].deg = Math.random() * 31 + 60;
         },
         updateBestScore() {
             if (this.score > this.bestScore) {
@@ -240,11 +224,12 @@ export default {
         setObj() {
             // 成功していた場合、回転速度が10％アップ
             this.rotateSpeed = this.isSuccess ? this.rotateSpeed * 0.9 : 3000;
+            this.rotateSpeed = 5000;
             // ref属性を使用して要素の参照を取得
-            const circleElement = this.$refs.circleRef;
+            const circleElem = document.getElementById("circle_2");
             // 回転の開始角度としてランダムな値をthis.objに保存する
             this.randomDeg = Math.random() * 360;
-            this.obj = circleElement.animate(
+            this.obj = circleElem.animate(
                 [
                     { transform: `rotate(${this.randomDeg}deg)` },
                     { transform: `rotate(${this.randomDeg - 360}deg)` },
@@ -256,7 +241,7 @@ export default {
             );
         },
         createPlayerNameArray() {
-            this.playerNameArray = [...this.playerName];
+            this.characterList[2].name = [...this.playerName];
         },
         getRandomNameArray() {
             const lastNameIndex = Math.floor(
@@ -266,15 +251,15 @@ export default {
         },
         updateRandomName() {
             // 長たちの苗字をランダム設定
-            this.syachouNameArray = this.getRandomNameArray();
-            this.buchouNameArray = this.getRandomNameArray();
-            this.kakarichouNameArray = this.getRandomNameArray();
+            this.characterList[0].name = this.getRandomNameArray();
+            this.characterList[1].name = this.getRandomNameArray();
+            this.characterList[3].name = this.getRandomNameArray();
 
             // 家族経営ボーナスの設定
             const nameList = [
-                this.syachouNameArray.join(""),
-                this.buchouNameArray.join(""),
-                this.kakarichouNameArray.join(""),
+                this.characterList[0].name.join(""),
+                this.characterList[1].name.join(""),
+                this.characterList[3].name.join(""),
             ];
             let duplicatedFamilyNameCountList = new Array(nameList.length).fill(
                 0
@@ -294,6 +279,14 @@ export default {
             this.familyOwnedBonus =
                 maxDuplicateCount > 1 ? maxDuplicateCount * 10 : 1;
         },
+
+        getFontSize(len) {
+            const circleElem = document.getElementsByClassName("circle")[0];
+            const circleRect = circleElem.getBoundingClientRect();
+            console.log("circleRect :>> ", circleRect);
+            console.log("len :>> ", len);
+            return "50px";
+        },
     },
 
     computed: {},
@@ -303,8 +296,8 @@ export default {
 <style scoped>
 .circle {
     position: relative; /* 親要素を相対位置に設定 */
-    width: 100px;
-    height: 100px;
+    width: 18vw;
+    height: 18vw;
     border-radius: 50%;
     border: 3px solid red;
 }
@@ -317,7 +310,7 @@ export default {
     transform: translate(-50%, -50%); /* 中央揃え */
     text-align: center;
     color: red;
-    font-size: xx-large;
+    font-size: xxx-large;
 }
 
 /* 縦書きのスタイルをそのままにする */
