@@ -1,14 +1,11 @@
 <template>
     <header-component />
     <div class="main_contents">
-        <!-- <div v-if="familyOwnedBonus > 10" class="bonus_tape">
-        【家族経営ボーナス】: 基本スコア x{{ familyOwnedBonus }}
-    </div> -->
         <div class="bonus_tape">
             <ul>
                 <li>
                     {{
-                        familyOwnedBonus > 10
+                        familyOwnedBonus > 1
                             ? `【家族経営ボーナス】: 基本スコア x ${familyOwnedBonus}`
                             : ""
                     }}
@@ -339,7 +336,7 @@ export default {
             );
 
             this.familyOwnedBonus =
-                maxDuplicateCount > 1 ? maxDuplicateCount * 10 : 1;
+                maxDuplicateCount > 1 ? maxDuplicateCount : 1;
 
             this.setFontSize();
         },
