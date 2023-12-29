@@ -1,18 +1,5 @@
 <template>
-    <div>
-        お名前:
-        <input style="display: inline-block" type="text" v-model="playerName" />
-        <a
-            class="btn --mini"
-            ontouchstart=""
-            @click="setPlayerName()"
-            style="display: inline-block"
-            >改名</a
-        >
-    </div>
-    <p>プレイヤーの名前を更新するよ</p>
-    <a class="btn" ontouchstart="" @click="updateRandomName()">転職</a>
-    <p>プレイヤー以外の名前を更新するよ</p>
+    <header-component />
     <div v-if="familyOwnedBonus > 10">
         【家族経営ボーナス】: 基本スコア x{{ familyOwnedBonus }}
     </div>
@@ -65,6 +52,21 @@
     <div>連続成功回数: {{ continuousPoint }}回</div>
     <div>一周の回転速度: {{ rotateSpeed }}ms</div>
 
+    <div>
+        お名前:
+        <input style="display: inline-block" type="text" v-model="playerName" />
+        <a
+            class="btn --mini"
+            ontouchstart=""
+            @click="setPlayerName()"
+            style="display: inline-block"
+            >改名</a
+        >
+    </div>
+    <p>プレイヤーの名前を更新するよ</p>
+    <a class="btn" ontouchstart="" @click="updateRandomName()">転職</a>
+    <p>プレイヤー以外の名前を更新するよ</p>
+
     <div
         v-if="!isRotate"
         class="result"
@@ -80,8 +82,13 @@
 
 <script>
 import { RESULT_INFO, LAST_NAME_LIST } from "./util/const";
+import HeaderComponent from "./components/HeaderComponent.vue";
 
 export default {
+    components: {
+        HeaderComponent,
+    },
+
     data() {
         return {
             isRotate: true,
