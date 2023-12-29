@@ -90,7 +90,7 @@ export default {
             continuousPoint: 0,
             resultKey: "",
             score: 0,
-            bestScore: 0,
+            bestScore: localStorage.getItem("best_score") || 0,
             randomDeg: 0,
             RESULT_INFO,
             playerName: "",
@@ -218,8 +218,10 @@ export default {
             this.characterList[3].deg = Math.random() * 31 + 60;
         },
         updateBestScore() {
+            localStorage.setItem("before_score", this.score);
             if (this.score > this.bestScore) {
                 this.bestScore = this.score;
+                localStorage.setItem("best_score", this.score);
             }
         },
         setObj() {
