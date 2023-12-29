@@ -1,16 +1,11 @@
 <template>
     <div>
         お名前:
-        <input
-            style="display: inline-block"
-            type="text"
-            v-model="playerName"
-            @change="createPlayerNameArray()"
-        />
+        <input style="display: inline-block" type="text" v-model="playerName" />
         <a
             class="btn --mini"
             ontouchstart=""
-            @click="setFontSize()"
+            @click="setPlayerName()"
             style="display: inline-block"
             >改名</a
         >
@@ -142,7 +137,7 @@ export default {
 
         // プレイヤーの苗字設定
         this.playerName = this.getRandomNameArray().join("");
-        this.createPlayerNameArray();
+        this.setPlayerName();
 
         // その他の苗字設定
         this.updateRandomName();
@@ -247,8 +242,10 @@ export default {
                 }
             );
         },
-        createPlayerNameArray() {
+        setPlayerName() {
             this.characterList[2].name = [...this.playerName];
+
+            this.setFontSize();
         },
         getRandomNameArray() {
             const lastNameIndex = Math.floor(
