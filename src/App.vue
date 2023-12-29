@@ -2,12 +2,18 @@
     <div>
         お名前:
         <input
+            style="display: inline-block"
             type="text"
             v-model="playerName"
             @change="createPlayerNameArray()"
         />
+        <a
+            class="btn --mini"
+            @click="setFontSize()"
+            style="display: inline-block"
+            >改名</a
+        >
     </div>
-    <a class="btn" @click="setFontSize()">改名</a>
     <p>プレイヤーの名前を更新するよ</p>
     <a class="btn" @click="updateRandomName()">転職</a>
     <p>プレイヤー以外の名前を更新するよ</p>
@@ -304,19 +310,22 @@ export default {
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
-    width: 120px;
+    width: 6rem;
     margin: auto;
-    padding: 1rem 4rem;
+    padding: 0.2rem 2rem;
     font-weight: bold;
     border-radius: 100vh;
-    border-bottom: 7px solid #0686b2;
+    border-bottom: 0.3rem solid #0686b2;
     background: #27acd9;
     color: #fff;
     cursor: pointer;
 }
+.--mini {
+    width: 2rem;
+}
 .btn:active {
-    margin-top: 6px;
-    border-bottom: 1px solid #0686b2;
+    margin-top: 0.1rem;
+    border-bottom: 0.1rem solid #0686b2;
     color: #fff;
 }
 .circle {
