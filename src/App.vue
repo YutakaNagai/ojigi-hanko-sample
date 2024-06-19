@@ -122,15 +122,19 @@
     >
         {{ RESULT_INFO[resultKey].message }}
     </div>
+
+    <FooterLinks />
 </template>
 
 <script>
 import { RESULT_INFO, LAST_NAME_LIST } from "./util/const";
 import HeaderComponent from "./components/HeaderComponent.vue";
+import FooterLinks from "./components/FooterLinks.vue";
 
 export default {
     components: {
         HeaderComponent,
+        FooterLinks,
     },
 
     data() {
